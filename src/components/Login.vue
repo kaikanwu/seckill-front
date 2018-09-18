@@ -3,7 +3,7 @@
     <div id="portal-template">
         <img class="portal-logo" src="../assets/images/logo.png" alt="秒杀logo">
         <div id="login">
-            <el-form label-position="top" label-width="80px" :model="user" ref="userValid" :rules="rules">
+            <el-form label-position="top" label-width="80px" :model="user" ref="ruleForm" :rules="rules">
                 <el-form-item label="用户名" prop="username">
                     <el-input v-model="user.username" placeholder="请输入用户名">  
                     </el-input>
@@ -13,9 +13,9 @@
                     <el-input type="password" v-model="user.password" placeholder="请输入密码" @keypress.enter.native="login('userValid')">
                     </el-input>
                 </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" class="submit-btn" @click="login('userValid')">登录</el-button>
-                </el-form-item>
+        
+                <el-button type="primary" class="submit-btn" @click="login('ruleForm')">登录</el-button>
+     
 
             </el-form>
             
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import qs from 'qs'
 export default{
     name: 'login',
     data () {
@@ -34,6 +35,7 @@ export default{
                 username:'',
                 password:''
             },
+            msg: 'Welcome to login page',
             rules: {
             username:[
                   {required:true, message:'用户名不能为空', trigger:'blur'}
@@ -46,32 +48,29 @@ export default{
 
     },
     methods:{
-        login(){
-            //get
-            // this.axios.get('/api/login?username=k&password=1234')
-            // .then((response) =>{
-            //     console.log(response);
-            // })
-            // .catch((error) =>{
-            //     console.log('error:' + error);
-            // })
-            //post
+        login(formName){
 
             var self = this;
-            self.axios.post('/api/login', qs.stringify({username: self.user.username, password: self.user.password}))
+            self.$refs[formName].validate((valid) =>{
+                if(valid){
+                    self.axios.post('/api/login', qs.stringify({username: self.user.username, password: self.user.password}))
+                    .then(function (response){
+                        var result = response.data;
+                        if(result.code == 200){
+                            self.$message.success(result.message)
+                            self.$router.push('/foo');
+                        }else{
+                            self.$message.error(result.message)
+                        }
+                    })
+                    .catch(function (error){
+                        alert("error" + error);
+                    });
+
+                }
+            });
       
-            .then((response) =>{
-                if(response.data.code == 200){
-                    self.$message.success(response.data.message)
-                    //成功后跳转到foo
-                    self.$router.push('/foo')
-                }else{
-                    self.$message.error(response.data.message)
-                }                
-            })
-            .catch((error) =>{
-                self.$message.error('请刷新重试!')
-            })
+            
         }
     }
 
