@@ -1,150 +1,71 @@
 <template>
 <!-- import func from './vue-temp/vue-editor-bridge'; -->
   <div id="app">
-    <!-- <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
 
-    <input v-model="msg"/>
-    <button @click="changeMsg">Click me</button>
-    <br/>
-    firstname:<input v-model="firstname"/> <br/>
-    lastname:<input v-model="lastname"/><br/>
-    fullname:{{firstname}}&nbsp;{{lastname}}<br/>
-    fullname methods:{{getFullName()}}<br/>
-    fullname computed:{{fullname}}<br/>
-    fullname watch:{{fullname}}<br/>
+    <!-- <h1>Hello Test</h1>
+    <p>
+      
+      <router-link to="/foo">Go to foo</router-link>
+      <router-link to="/bar">Go to bar</router-link>
 
 
-    <hr/>
-    <input v-model="name"/><button @click="addUser">添加</button><br/>
-    <ol>
-      <li v-for="(item, index) in userList" :key="index">
-        <span v-if="index % 3 == 0 " class="red">{{item}} -{{index}}</span>
-        <span v-else-if=" index % 3 == 1 " class="green">{{item}} -{{index}}</span>
-        <span v-else class="blue">{{item}} -{{index}}</span>
+      <button @click="gotoByUrl('/foo')">Go to Foo</button>
+      <button @click="gotoByUrl('/bar')">Go to bar</button>
+    </p> -->
 
-      </li>
-
-    </ol> -->
-
-
-    <button-counter prop-name = "a">
-      <span>ABBBB</span>
-    </button-counter>  
-    <button-counter prop-name="Bb"><span>B</span></button-counter>
-    <button-counter prop-name='Cccc'></button-counter>
-    <button-counter prop-name='Dddd'></button-counter>
-
+    <!-- 路由出口 -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import ButtonCounter from './components/ButtonCounter'
 export default {
-    name: 'app',
-    components:{
-      ButtonCounter
-    },
-    data(){
-      return{
-        a: 'A'
-      }
+
+  name:'app',
+  data(){
+    return{
+
     }
-
-
-
-
-
-
-  // name: 'app',
-  // data () {
-  //   return {
-  //     msg: 'Welcome to Your Vue.js App',
-  //     firstname: 'kk',
-  //     lastname:'wu',
-  //     fullnameWatch: 'kk wu',
-
-  //     name:'',
-  //     userList: []
-
-  //   }
-  // },
-  // methods:{
-  //    addUser(){
-  //      this.userList.push(this.name),
-  //      this.name = ''
-  //    },
-
-
-  //   changeMsg(){
-  //     this.msg = "kk"
-  //   },
-
-
-  //   getFullName(){
-  //     return this.firstname + ' '+ this.lastname
-  //   }
-  // },
-
-  // computed:{
-  //   fullname: function(){
-  //     return this.firstname + ' '+ this.lastname
-  //   }
-
-  // },
-  // watch:{
-  //   firstname:function(val){
-  //     this.fullnameWatch = val + ' '+ this.lastname
-  //   },
-  //   lastname: function(val){
-  //     this.fullnameWatch = this.firstname + ' '+val
-  //   }
-  // }
-
-
-
+  },
+  methods: {
+    gotoByUrl(url){
+      //do something here
+      this.$router.push(url)
+    }
+  }
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@import './assets/css/replace-elementui.css';
+html{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
 }
 
-// h1, h2 {
-//   font-weight: normal;
-// }
+body{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family :"PingFang SC","Helvetica Neue","Hiragino Sans GB","Segoe UI","Microsoft YaHei","微软雅黑",sans-serif;
 
-// ul {
-//   list-style-type: none;
-//   padding: 0;
-// }
-
-// li {
-//   display: inline-block;
-//   margin: 0 10px;
-// }
-
-// a {
-//   color: #42b983;
-// }
-
-.red{
-  background-color: red;
 }
 
-.green{
-  background-color: green;
+
+#app{
+  width:100%;
+  height: 100%;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.blue{
-  background-color: blue;
-}
 
+a{
+  text-decoration: none;
+}
 
 </style>

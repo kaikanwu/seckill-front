@@ -61,7 +61,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(woff|ttf|png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]'
@@ -76,6 +76,7 @@ module.exports = {
     extensions: ['*', '.js', '.vue', '.json']
   },
   devServer: {
+    port:'8081',
     historyApiFallback: true,
     noInfo: true,
     overlay: true
