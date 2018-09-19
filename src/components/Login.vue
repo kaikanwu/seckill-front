@@ -49,27 +49,21 @@ export default{
     },
     methods:{
         login(formName){
-
             var self = this;
-            self.$refs[formName].validate((valid) =>{
-                if(valid){
-                    self.axios.post('/api/login', qs.stringify({username: self.user.username, password: self.user.password}))
-                    .then(function (response){
-                        var result = response.data;
-                        if(result.code == 200){
-                            self.$message.success(result.message)
-                            self.$router.push('/foo');
-                        }else{
-                            self.$message.error(result.message)
-                        }
-                    })
-                    .catch(function (error){
-                        alert("error" + error);
-                    });
+            self.$refs[formName].validate((valid) => {
+                if (valid) {
 
+                self.$store.dispatch('login', {username: self.user.username, password: self.user.password})
+                .then((response) => {
+                    self.$message.success(response.data.message)
+                    self.$router.push('/home/course/list');
+                })
+                .catch((response) => {
+                    self.$message.error(response.data.message)
+                })
                 }
             });
-      
+        
             
         }
     }
