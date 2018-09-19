@@ -1,7 +1,6 @@
 <template>
 
-    <div id="portal-template">
-        <img class="portal-logo" src="../assets/images/logo.png" alt="秒杀logo">
+    <portal-template>
         <div id="login">
             <el-form label-position="top" label-width="80px" :model="user" ref="ruleForm" :rules="rules">
                 <el-form-item label="用户名" prop="username">
@@ -15,20 +14,22 @@
                 </el-form-item>
         
                 <el-button type="primary" class="submit-btn" @click="login('ruleForm')">登录</el-button>
-     
-
             </el-form>
-            
+            <router-link to="/register"><el-button type="text" icon="el-icon-edit">去注册页</el-button></router-link>
+
         </div>
 
-    </div>
+    </portal-template>
     
 </template>
 
 <script>
-import qs from 'qs'
+import PortalTemplate from './PortalTemplate'
 export default{
     name: 'login',
+    components:{
+        PortalTemplate
+    },
     data () {
         return{
             user:{
@@ -56,7 +57,7 @@ export default{
                 self.$store.dispatch('login', {username: self.user.username, password: self.user.password})
                 .then((response) => {
                     self.$message.success(response.data.message)
-                    self.$router.push('/home/course/list');
+                    self.$router.push('/foo');
                 })
                 .catch((response) => {
                     self.$message.error(response.data.message)
@@ -73,5 +74,4 @@ export default{
 </script>
 
 <style lang="scss">
-@import '../assets/css/portal-template.css'
 </style>
