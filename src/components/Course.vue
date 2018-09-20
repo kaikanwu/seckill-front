@@ -96,7 +96,8 @@ export default {
         "courseType": 0,
         "coursePic": ""
       },
-      courseTimerStatus: '距离开课时间还有 1天20小时20分钟30秒',
+      // courseTimerStatus: '距离开课时间还有 1天20小时20分钟30秒',
+      courseTimerStatus:'',
       timer: null,
       isTimerStop: true,
       showButtonType: 0,
@@ -104,9 +105,11 @@ export default {
       load: false
     }
   },
+  
   created() {
     //距离开课时间还有 1天20小时20分钟30秒
     var self = this;
+    // 从url中获取courseNo
     self.axios.get('/api/courseDetail/' + self.$route.params.courseNo)
      .then(function (response) {
        self.course = response.data.data.course;
@@ -116,6 +119,7 @@ export default {
        self.$message.error(response)
      });
   },
+
   methods: {
     book() {
       var self = this;
