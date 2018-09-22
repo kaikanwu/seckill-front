@@ -52,6 +52,7 @@
                         @click="book">
                   <span>立即报名</span>
                 </el-button>
+                <!-- 使用router-link 来跳转到订单页面，也可以给这个按钮加一个监听 -->
                 <router-link to="/home/order/list"><el-button type="info" v-if="showButtonType == 1" class="el-button--primary" id="trun-btn" >
                   <span>查看订单</span>
                 </el-button></router-link>
@@ -99,13 +100,14 @@ export default {
       // courseTimerStatus: '距离开课时间还有 1天20小时20分钟30秒',
       courseTimerStatus:'',
       timer: null,
+      //是否启动计时器
       isTimerStop: true,
       showButtonType: 0,
       isBookButtonDisabled: false,
       load: false
     }
   },
-  
+  //初始化数据
   created() {
     //距离开课时间还有 1天20小时20分钟30秒
     var self = this;
@@ -121,6 +123,9 @@ export default {
   },
 
   methods: {
+    //秒课功能
+    // 1.获取下单地址 -》 '/api/getPath/' + self.$route.params.courseNo
+    // 2.根据地址下单 -》 `/api/${path}/seckill/${courseNo}`
     book() {
       var self = this;
       self.axios.get('/api/getPath/' + self.$route.params.courseNo)
@@ -136,24 +141,32 @@ export default {
           });
        })
        .catch(function (error) {
-         self.$message.error('出错')
+         self.$message.error('/秒课功能出错')
        });
     },
+    //轮询：查询购买
     getResult(response) {
       var code = response.data.code;
       var self = this;
       switch(code) {
         case 200:
-          // self.$message.success(response.data.message)
+        //显示下单成功
+          self.$message.success('你已下单成功');
+          // self.$message.success(response.data.message);
+
           self.showButtonType = 1;
+          //其他状态下，页面不转圈，下同
           self.load = false;
           break;
         case 500100:
           var self = this;
+          //排队的时候，将按钮disable
           self.isBookButtonDisabled = true;
+          //只有在500100排队中的时候，页面才显示转圈
           self.load = true;
           self.axios.get('/api/seckillResult/' + self.$route.params.courseNo)
            .then(function (response) {
+             //如果还是排队中的话，调用本身
              self.getResult(response);
            })
            .catch(function (error) {
@@ -180,12 +193,14 @@ export default {
           self.isBookButtonDisabled = false;
           self.$message.error(response.data.message);
           break;
+
         default:
-          self.$message.error('出错')
-          self.load = false;
+          self.$message.error('/查询购买出错??????')
+          self.load = false; 
           break;
       }
     },
+    //检查课程状态
     checkTimerStatus() {
       var self = this;
       var course = self.course;
@@ -196,7 +211,6 @@ export default {
       if (startTime > currentTime) {
         if (course.stockQuantity > 0) {
           self.isTimerStop = false;
-//          self.courseTimerStatus = '距离开课时间还有 1天20小时20分钟30秒';
           self.showButtonType = 0;
           self.isBookButtonDisabled = true;
           self.startTimer()
@@ -225,10 +239,12 @@ export default {
     },
     startTimer() {
       var self = this;
+      //setInterval 是设置定时，间隔一段时间执行里面的方法
       self.timer = setInterval(function() {
         if (self.isTimerStop) {
           clearInterval(self.timer)
         }
+        //更新时间
         self.updateTimer()
       }, 1000)
     },

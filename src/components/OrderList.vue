@@ -74,6 +74,7 @@ export default {
     var self = this;
     self.axios.get('/api/orderList')
      .then(function (response) {
+       //与返回值作比较
        if (response.data.code == 200) {
          self.orderList = response.data.data;
        } else {
